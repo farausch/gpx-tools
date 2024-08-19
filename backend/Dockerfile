@@ -18,9 +18,7 @@ RUN adduser \
 
 COPY requirements.txt requirements.txt
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
 USER appuser
 
@@ -28,4 +26,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD uvicorn 'api:app' --host=0.0.0.0 --port=8000
+CMD ["uvicorn", "api:app", "--host=0.0.0.0", "--port=8000"]
